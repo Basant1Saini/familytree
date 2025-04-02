@@ -65,47 +65,5 @@ const familyMemberSchema = new mongoose_1.Schema({
 }, {
     timestamps: true
 });
-// Index for faster queries
 familyMemberSchema.index({ user: 1, relatedUser: 1, relationType: 1 }, { unique: true });
-exports.FamilyMember = mongoose_1.default.model('FamilyMember', familyMemberSchema);
-(function (RelationType) {
-    RelationType["PARENT"] = "PARENT";
-    RelationType["CHILD"] = "CHILD";
-    RelationType["SPOUSE"] = "SPOUSE";
-    RelationType["SIBLING"] = "SIBLING";
-})(RelationType || (exports.RelationType = RelationType = {}));
-const familyMemberSchema = new mongoose_1.Schema({
-    user: {
-        type: mongoose_1.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
-    },
-    relatedUser: {
-        type: mongoose_1.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
-    },
-    relationType: {
-        type: String,
-        enum: Object.values(RelationType),
-        required: true
-    },
-    relationStartDate: {
-        type: Date
-    },
-    relationEndDate: {
-        type: Date
-    },
-    isActive: {
-        type: Boolean,
-        default: true
-    }
-}, {
-    timestamps: true
-});
-// Add compound index for unique relationships
-familyMemberSchema.index({ user: 1, relatedUser: 1, relationType: 1 }, { unique: true });
-// Add indexes for efficient querying
-familyMemberSchema.index({ user: 1, isActive: 1 });
-familyMemberSchema.index({ relatedUser: 1, isActive: 1 });
 exports.FamilyMember = mongoose_1.default.model('FamilyMember', familyMemberSchema);
